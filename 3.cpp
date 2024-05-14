@@ -47,13 +47,33 @@ int stack_min(stack *h){
 
 stack *result(stack *h){
     int min = stack_min(h);
-    stack *temp = NULL;
+    stack *temp1 = NULL;
+    stack *temp2 = NULL;
+    bool firstMin = true;
+    revers(h);
     while(h){
-        x = pop(h);
-        if (x == min){
-            pop(x);
+        int x = pop(h);
+        if (x == min && firstMin){
+            firstMin = false; // помечаем первое встреченное минимальное значение
+            continue; // пропускаем его
         }
+        push(temp1, x);
     }
+
+    firstMin = true; // восстанавливаем первоначальное состояние
+     // разворачиваем временный стек
+
+    while(temp1){
+        int x = pop(temp1);
+        if (x == min && firstMin){
+            firstMin = false; // помечаем второе встреченное минимальное значение
+            continue; // пропускаем его
+        }
+        push(temp2, x);
+    }
+
+    h = temp2;
+    return h;
 }
 
 int main(){
